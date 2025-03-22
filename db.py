@@ -21,7 +21,7 @@ def inserir(item): # : Função para inserir uma tarefa no banco de dados
         cursor.execute(query, item)
 
 
-def remover(item):
+def deletar(item):
     with connect:
         cursor = connect.cursor()
         query = """
@@ -30,10 +30,10 @@ def remover(item):
                 """
         cursor.execute(query, item)
         
-def update(item):
+def atualizar(item):
     cursor = connect.cursor()
     query = """
-                UPDATE tarefa SET nome='Comer'
+                UPDATE tarefa SET nome=?
                     WHERE id=?;
             """
     cursor.execute(query, item)

@@ -56,32 +56,55 @@ def main(event):
         
         button_add = Button(frame_e_baixo, width=9, height=1, bg=blue_color, pady=10,
                         text="Adicionar", fg="white", font="8", anchor="center", relief=RAISED, command=adicionar)
-        button_add.grid(row=2, column=0, sticky=NSEW, pady=15)\
+        button_add.grid(row=2, column=0, sticky=NSEW, pady=15)
 
     # > Atualizar
     if event == "atualizar":
         for widget in frame_e_baixo.winfo_children():
             widget.destroy()
             
-        def atualizar():
-            ...
+        def on():
+            lb = Label(frame_e_baixo, width=42, height=5, pady=15, anchor=CENTER, text="Atualizar tarefa")
+            lb.grid(row=0, column=0, sticky=NSEW)
+            
+            entry = Entry(frame_e_baixo, width=15)
+            entry.grid(row=1, column=0, sticky=NSEW)
+            
+            valor_selecionado = listbox.curselection()[0]
+            palavra = listbox.get(valor_selecionado)
+            entry.insert(0, palavra)
+            
+            tarefas = selecionar()
+            
+            def alterar():
+                for item in tarefas:
+                    if palavra == item[1]:
+                        nova = [entry.get(), item[0]]
+                        atualizar(nova)
+                        entry.delete(0, END)
+                mostrar()
 
-        valor_selecionado = listbox.curselection()[0]
-        palavra = listbox.get(valor_selecionado)
+            button_update = Button(frame_e_baixo, width=9, height=1, bg=green_color, pady=10,
+                            text="Atualizar", fg="white", font="8", anchor="center", relief=RAISED, command=alterar)
+            button_update.grid(row=2, column=0, sticky=NSEW, pady=15)
         
-        lb = Label(frame_e_baixo, width=42, height=5, pady=15, anchor=CENTER, text="Atualizar tarefa")
-        lb.grid(row=0, column=0, sticky=NSEW)
-        
-        entry = Entry(frame_e_baixo, width=15)
-        entry.grid(row=1, column=0, sticky=NSEW)
-        
-        button_add = Button(frame_e_baixo, width=9, height=1, bg=green_color, pady=10,
-                        text="Atualizar", fg="white", font="8", anchor="center", relief=RAISED)
-        button_add.grid(row=2, column=0, sticky=NSEW, pady=15)
+        on()
     
     # > Remover
     if event == 'remover':
         ...
+        
+        
+# > Função remover
+def remove():
+    valor_selecionado = listbox.curselection()[0]
+    palavra = listbox.get(valor_selecionado)
+    tarefas = selecionar()
+    
+    for item in tarefas:
+        if palavra == item[1]:
+            deletar([item[0]])
+    mostrar()
 
 # ? Criando os botões novo, remover e atualizar
 
@@ -92,7 +115,7 @@ button_new.grid(row=0, column=0, sticky=NSEW, pady=1)
 
 # > Botão de remover
 button_remove = Button(frame_e_buttons, width=10, height=1, bg=red_color,
-                    text="Remover", fg="white", font="5", anchor="center", relief=RAISED, command=lambda: main("remover"))
+                    text="Remover", fg="white", font="5", anchor="center", relief=RAISED, command=remove)
 button_remove.grid(row=0, column=1, sticky=NSEW, pady=1)
 
 #> Botão de atualizar
